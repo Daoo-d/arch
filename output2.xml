@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DTS:Executable DTS:ExecutableType="MSDTS.Package.1" xmlns:DTS="www.microsoft.com/SqlServer/Dts">
+ <DTS:Property DTS:Name="PackageFormatVersion">
+  2
+ </DTS:Property>
+ <DTS:Property DTS:Name="VersionComments"/>
+ <DTS:Property DTS:Name="CreatorName">
+  APPLIEDIS\Raymond.Barley
+ </DTS:Property>
+ <DTS:Property DTS:Name="CreatorComputerName">
+  L00458
+ </DTS:Property>
+ <DTS:Property DTS:DataType="7" DTS:Name="CreationDate">
+  10/4/2009 11:09:06 AM
+ </DTS:Property>
+ <DTS:Property DTS:Name="PackageType">
+  5
+ </DTS:Property>
+ <DTS:Property DTS:Name="ProtectionLevel">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="MaxConcurrentExecutables">
+  -1
+ </DTS:Property>
+ <DTS:Property DTS:Name="PackagePriorityClass">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="VersionMajor">
+  1
+ </DTS:Property>
+ <DTS:Property DTS:Name="VersionMinor">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="VersionBuild">
+  10
+ </DTS:Property>
+ <DTS:Property DTS:Name="VersionGUID">
+  {3DDBEBF3-C4FF-4DDB-9249-ADA806C73005}
+ </DTS:Property>
+ <DTS:Property DTS:Name="EnableConfig">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="CheckpointFileName"/>
+ <DTS:Property DTS:Name="SaveCheckpoints">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="CheckpointUsage">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="SuppressConfigurationWarnings">
+  0
+ </DTS:Property>
+ <DTS:ConnectionManager>
+  <DTS:Property DTS:Name="DelayValidation">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   Excel Connection Manager
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {02EFA3C0-9DBE-4279-9E03-B752C6523DAE}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName">
+   EXCEL
+  </DTS:Property>
+  <DTS:ObjectData>
+   <DTS:ConnectionManager>
+    <DTS:Property DTS:Name="Retain">
+     0
+    </DTS:Property>
+    <DTS:Property DTS:Name="ConnectionString">
+     Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\mssqltips\ssis_tutorial\samples\Tutorial-Sample-1\SalesForecastInput.xls;Extended Properties="Excel 8.0;HDR=YES";
+    </DTS:Property>
+   </DTS:ConnectionManager>
+  </DTS:ObjectData>
+ </DTS:ConnectionManager>
+ <DTS:ConnectionManager>
+  <DTS:Property DTS:Name="DelayValidation">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   localhost.AdventureWorksDW
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {F7E88C74-D039-4BB7-BBAF-672D8AF85932}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName">
+   OLEDB
+  </DTS:Property>
+  <DTS:ObjectData>
+   <DTS:ConnectionManager>
+    <DTS:Property DTS:Name="Retain">
+     0
+    </DTS:Property>
+    <DTS:Property DTS:Name="ConnectionString">
+     Data Source=localhost;Initial Catalog=AdventureWorksDW;Provider=SQLNCLI.1;Integrated Security=SSPI;Auto Translate=False;
+    </DTS:Property>
+   </DTS:ConnectionManager>
+  </DTS:ObjectData>
+ </DTS:ConnectionManager>
+ <DTS:PackageVariable>
+  <DTS:Property DTS:DataType="8" DTS:Name="PackageVariableValue">
+   &lt;Package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsControlFlowDiagram&gt;&lt;dwd:BoundingTop&gt;2223&lt;/dwd:BoundingTop&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout" version="7" nextobject="4" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="14393" y="13335" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.1" tooltip="Data Flow Task" left="2910" top="2223" logicalid="3" controlid="3" masterid="0" hint1="0" hint2="0" width="4895" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="000800001f1300008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsControlFlowDiagram&gt;&lt;/Package&gt;
+  </DTS:Property>
+  <DTS:Property DTS:Name="Namespace">
+   dts-designer-1.0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   {032123E9-9E1B-4A6E-ADF3-7107A08DB045}
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {3E2BE3A7-0C66-4720-A408-6343D62B79B7}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName"/>
+ </DTS:PackageVariable>
+ <DTS:PackageVariable>
+  <DTS:Property DTS:DataType="8" DTS:Name="PackageVariableValue">
+   &lt;TaskHost xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:DtsDataFlowDiagram&gt;&lt;dwd:BoundingTop&gt;1455&lt;/dwd:BoundingTop&gt;&lt;dwd:Layout&gt;&lt;dds&gt;
+  &lt;diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="Microsoft.DataWarehouse.Layout.GraphLayout" defaultlineroute="Microsoft.DataWarehouse.Layout.GraphLayout" version="7" nextobject="9" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="0" scrolltop="0" gridx="150" gridy="150" marginx="1000" marginy="1000" zoom="100" x="14393" y="12409" backcolor="15334399" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="1" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="0" backpictureclsid="{00000000-0000-0000-0000-000000000000}"&gt;
+    &lt;font&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="01010000900180380100065461686f6d61" /&gt;
+    &lt;/font&gt;
+    &lt;mouseicon&gt;
+      &lt;ddsxmlobjectstreamwrapper binary="6c74000000000000" /&gt;
+    &lt;/mouseicon&gt;
+  &lt;/diagram&gt;
+  &lt;layoutmanager&gt;
+    &lt;ddsxmlobj /&gt;
+  &lt;/layoutmanager&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.1" tooltip="OLE DB Source" left="5080" top="1455" logicalid="4" controlid="4" masterid="0" hint1="0" hint2="0" width="3598" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="000800000e0e00008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}/components/1" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.1" tooltip="Updates column values using expressions" left="5080" top="3783" logicalid="5" controlid="5" masterid="0" hint1="0" hint2="0" width="3598" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="000800000e0e00008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}/components/16" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+  &lt;ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge.1" tooltip="Excel Destination" left="5159" top="6324" logicalid="6" controlid="6" masterid="0" hint1="0" hint2="0" width="3598" height="1164" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobjectstreaminitwrapper binary="000800000e0e00008c040000" /&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}/components/22" vartype="8" /&gt;
+        &lt;property name="ShowConnectorSource" value="0" vartype="2" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;shape groupshapeid="0" groupnode="0" /&gt;
+  &lt;/ddscontrol&gt;
+  &lt;ddscontrol controlprogid="MSDDS.Polyline" left="6480" top="2220" logicalid="7" controlid="7" masterid="0" hint1="0" hint2="0" width="799" height="2063" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;polyline endtypedst="3" endtypesrc="1" usercolor="32768" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}/paths/127" vartype="8" /&gt;
+        &lt;property name="Virtual" value="0" vartype="11" /&gt;
+        &lt;property name="VisibleAP" value="0" vartype="3" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;connector lineroutestyle="Microsoft.DataWarehouse.Layout.GraphLayout" sourceid="4" destid="5" sourceattachpoint="7" destattachpoint="6" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="2" relatedid="0" virtual="0"&gt;
+      &lt;point x="6879" y="2619" /&gt;
+      &lt;point x="6879" y="3783" /&gt;
+    &lt;/connector&gt;
+  &lt;/ddscontrol&gt;
+  &lt;ddscontrol controlprogid="MSDDS.Polyline" left="6480" top="4548" logicalid="8" controlid="8" masterid="0" hint1="0" hint2="0" width="878" height="2276" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0"&gt;
+    &lt;control&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;polyline endtypedst="3" endtypesrc="1" usercolor="32768" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/control&gt;
+    &lt;layoutobject&gt;
+      &lt;ddsxmlobj&gt;
+        &lt;property name="LogicalObject" value="{AD1BE492-BB24-47DF-B4CB-40527E800BC5}/paths/142" vartype="8" /&gt;
+        &lt;property name="Virtual" value="0" vartype="11" /&gt;
+        &lt;property name="VisibleAP" value="0" vartype="3" /&gt;
+      &lt;/ddsxmlobj&gt;
+    &lt;/layoutobject&gt;
+    &lt;connector lineroutestyle="Microsoft.DataWarehouse.Layout.GraphLayout" sourceid="5" destid="6" sourceattachpoint="7" destattachpoint="6" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="2" relatedid="0" virtual="0"&gt;
+      &lt;point x="6879" y="4947" /&gt;
+      &lt;point x="6879" y="5635" /&gt;
+      &lt;point x="6958" y="5635" /&gt;
+      &lt;point x="6958" y="6324" /&gt;
+    &lt;/connector&gt;
+  &lt;/ddscontrol&gt;
+&lt;/dds&gt;&lt;/dwd:Layout&gt;&lt;/dwd:DtsDataFlowDiagram&gt;&lt;dwd:DtsComponentDesignerPropertiesList&gt;&lt;dwd:DtsComponentDesignTimeProperty&gt;&lt;dwd:key xsi:type="xsd:string"&gt;22	TableInfoObjectType&lt;/dwd:key&gt;&lt;dwd:value xsi:type="xsd:string"&gt;Table&lt;/dwd:value&gt;&lt;/dwd:DtsComponentDesignTimeProperty&gt;&lt;dwd:DtsComponentDesignTimeProperty&gt;&lt;dwd:key xsi:type="xsd:string"&gt;1	DataSourceViewID&lt;/dwd:key&gt;&lt;/dwd:DtsComponentDesignTimeProperty&gt;&lt;dwd:DtsComponentDesignTimeProperty&gt;&lt;dwd:key xsi:type="xsd:string"&gt;22	DataSourceViewID&lt;/dwd:key&gt;&lt;/dwd:DtsComponentDesignTimeProperty&gt;&lt;/dwd:DtsComponentDesignerPropertiesList&gt;&lt;/TaskHost&gt;
+  </DTS:Property>
+  <DTS:Property DTS:Name="Namespace">
+   dts-designer-1.0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   {AD1BE492-BB24-47DF-B4CB-40527E800BC5}
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {D6B67B78-CA77-44DB-BD3E-1CDF9FE28E31}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName"/>
+ </DTS:PackageVariable>
+ <DTS:PackageVariable>
+  <DTS:Property DTS:DataType="8" DTS:Name="PackageVariableValue">
+   &lt;PipelinePath xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:SourceName&gt;OLE DB Source Output&lt;/dwd:SourceName&gt;&lt;dwd:DestinationName&gt;Derived Column Input&lt;/dwd:DestinationName&gt;&lt;/PipelinePath&gt;
+  </DTS:Property>
+  <DTS:Property DTS:Name="Namespace">
+   dts-designer-1.0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   {AD1BE492-BB24-47DF-B4CB-40527E800BC5}-127
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {44E724BD-1631-42AA-A1A1-677D00A74A8C}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName"/>
+ </DTS:PackageVariable>
+ <DTS:PackageVariable>
+  <DTS:Property DTS:DataType="8" DTS:Name="PackageVariableValue">
+   &lt;PipelinePath xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0"&gt;&lt;dwd:SourceName&gt;Derived Column Output&lt;/dwd:SourceName&gt;&lt;dwd:DestinationName&gt;Excel Destination Input&lt;/dwd:DestinationName&gt;&lt;/PipelinePath&gt;
+  </DTS:Property>
+  <DTS:Property DTS:Name="Namespace">
+   dts-designer-1.0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ObjectName">
+   {AD1BE492-BB24-47DF-B4CB-40527E800BC5}-142
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {506388E4-6F44-4871-A3B6-AB646CBB541E}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description"/>
+  <DTS:Property DTS:Name="CreationName"/>
+ </DTS:PackageVariable>
+ <DTS:Property DTS:Name="ForceExecValue">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:DataType="3" DTS:Name="ExecValue">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="ForceExecutionResult">
+  -1
+ </DTS:Property>
+ <DTS:Property DTS:Name="Disabled">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="FailPackageOnFailure">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="FailParentOnFailure">
+  0
+ </DTS:Property>
+ <DTS:Property DTS:Name="MaxErrorCount">
+  1
+ </DTS:Property>
+ <DTS:Property DTS:Name="ISOLevel">
+  1048576
+ </DTS:Property>
+ <DTS:Property DTS:Name="LocaleID">
+  1033
+ </DTS:Property>
+ <DTS:Property DTS:Name="TransactionOption">
+  1
+ </DTS:Property>
+ <DTS:Property DTS:Name="DelayValidation">
+  0
+ </DTS:Property>
+ <DTS:LoggingOptions>
+  <DTS:Property DTS:Name="LoggingMode">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="FilterKind">
+   1
+  </DTS:Property>
+  <DTS:Property DTS:DataType="8" DTS:Name="EventFilter"/>
+ </DTS:LoggingOptions>
+ <DTS:Executable DTS:ExecutableType="DTS.Pipeline.1">
+  <DTS:Property DTS:Name="ExecutionLocation">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ExecutionAddress"/>
+  <DTS:Property DTS:Name="TaskContact">
+   Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v9; (C) 2004 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1
+  </DTS:Property>
+  <DTS:Property DTS:Name="ForceExecValue">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:DataType="3" DTS:Name="ExecValue">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="ForceExecutionResult">
+   -1
+  </DTS:Property>
+  <DTS:Property DTS:Name="Disabled">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="FailPackageOnFailure">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="FailParentOnFailure">
+   0
+  </DTS:Property>
+  <DTS:Property DTS:Name="MaxErrorCount">
+   1
+  </DTS:Property>
+  <DTS:Property DTS:Name="ISOLevel">
+   1048576
+  </DTS:Property>
+  <DTS:Property DTS:Name="LocaleID">
+   -1
+  </DTS:Property>
+  <DTS:Property DTS:Name="TransactionOption">
+   1
+  </DTS:Property>
+  <DTS:Property DTS:Name="DelayValidation">
+   0
+  </DTS:Property>
+  <DTS:LoggingOptions>
+   <DTS:Property DTS:Name="LoggingMode">
+    0
+   </DTS:Property>
+   <DTS:Property DTS:Name="FilterKind">
+    1
+   </DTS:Property>
+   <DTS:Property DTS:DataType="8" DTS:Name="EventFilter"/>
+  </DTS:LoggingOptions>
+  <DTS:Property DTS:Name="ObjectName">
+   Create Sales Forecast Input Spreadsheet
+  </DTS:Property>
+  <DTS:Property DTS:Name="DTSID">
+   {AD1BE492-BB24-47DF-B4CB-40527E800BC5}
+  </DTS:Property>
+  <DTS:Property DTS:Name="Description">
+   Data Flow Task
+  </DTS:Property>
+  <DTS:Property DTS:Name="CreationName">
+   DTS.Pipeline.1
+  </DTS:Property>
+  <DTS:Property DTS:Name="DisableEventHandlers">
+   0
+  </DTS:Property>
+  <DTS:ObjectData>
+   <pipeline BLOBTempStoragePath="" bufferTempStoragePath="" defaultBufferMaxRows="10000" defaultBufferSize="10485760" description="pipelineXml" engineThreads="5" id="0" name="pipelineXml" runInOptimizedMode="true">
+    <components>
+     <component componentClassID="{2C0A8BE5-1EDC-4353-A0EF-B778599C65A0}" contactInfo="OLE DB Source;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7" description="OLE DB Source" id="1" localeId="-1" name="OLE DB Source" pipelineVersion="0" usesDispositions="true" validateExternalMetadata="True" version="7">
+      <properties>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." expressionType="None" id="2" isArray="false" name="CommandTimeout" state="default" typeConverter="">
+        0
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="Specifies the name of the database object used to open a rowset." expressionType="None" id="3" isArray="false" name="OpenRowset" state="default" typeConverter=""/>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." expressionType="None" id="4" isArray="false" name="OpenRowsetVariable" state="default" typeConverter=""/>
+       <property UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" containsID="false" dataType="System.String" description="The SQL command to be executed." expressionType="None" id="5" isArray="false" name="SqlCommand" state="default" typeConverter="">
+        select
+  g.GeographyKey
+, g.SalesTerritoryKey  
+, g.City
+, g.StateProvinceName [State]
+, g.PostalCode
+from dbo.DimGeography g
+join dbo.DimSalesTerritory t 
+  on t.SalesTerritoryKey = g.SalesTerritoryKey
+where t.SalesTerritoryCountry = 'United States' 
+order by g.StateProvinceName, g.City
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="The variable that contains the SQL command to be executed." expressionType="None" id="6" isArray="false" name="SqlCommandVariable" state="default" typeConverter=""/>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." expressionType="None" id="7" isArray="false" name="DefaultCodePage" state="default" typeConverter="">
+        1252
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." expressionType="None" id="8" isArray="false" name="AlwaysUseDefaultCodePage" state="default" typeConverter="">
+        false
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="Specifies the mode used to access the database." expressionType="None" id="9" isArray="false" name="AccessMode" state="default" typeConverter="AccessMode">
+        2
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="The mappings between the parameters in the SQL command and variables." expressionType="None" id="15" isArray="false" name="ParameterMapping" state="default" typeConverter=""/>
+      </properties>
+      <connections>
+       <connection connectionManagerID="{F7E88C74-D039-4BB7-BBAF-672D8AF85932}" description="The OLE DB runtime connection used to access the database." id="10" name="OleDbConnection"/>
+      </connections>
+      <outputs>
+       <output dangling="false" deleteOutputOnPathDetached="false" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" exclusionGroup="0" hasSideEffects="false" id="11" isErrorOut="false" isSorted="false" name="OLE DB Source Output" synchronousInputId="0" truncationRowDisposition="NotUsed">
+        <outputColumns>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="52" id="53" length="0" lineageId="53" name="GeographyKey" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="55" id="56" length="0" lineageId="56" name="SalesTerritoryKey" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="58" id="59" length="30" lineageId="59" name="City" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="61" id="62" length="50" lineageId="62" name="State" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="64" id="65" length="15" lineageId="65" name="PostalCode" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent"/>
+        </outputColumns>
+        <externalMetadataColumns isUsed="True">
+         <externalMetadataColumn codePage="0" dataType="i4" description="" id="52" length="0" name="GeographyKey" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="i4" description="" id="55" length="0" name="SalesTerritoryKey" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="58" length="30" name="City" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="61" length="50" name="State" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="64" length="15" name="PostalCode" precision="0" scale="0"/>
+        </externalMetadataColumns>
+       </output>
+       <output dangling="false" deleteOutputOnPathDetached="false" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" exclusionGroup="0" hasSideEffects="false" id="12" isErrorOut="true" isSorted="false" name="OLE DB Source Error Output" synchronousInputId="0" truncationRowDisposition="NotUsed">
+        <outputColumns>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="54" length="0" lineageId="54" name="GeographyKey" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="57" length="0" lineageId="57" name="SalesTerritoryKey" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="60" length="30" lineageId="60" name="City" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="63" length="50" lineageId="63" name="State" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="wstr" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="66" length="15" lineageId="66" name="PostalCode" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="13" length="0" lineageId="13" name="ErrorCode" precision="0" scale="0" sortKeyPosition="0" specialFlags="1" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="14" length="0" lineageId="14" name="ErrorColumn" precision="0" scale="0" sortKeyPosition="0" specialFlags="2" truncationRowDisposition="NotUsed"/>
+        </outputColumns>
+        <externalMetadataColumns isUsed="False"/>
+       </output>
+      </outputs>
+     </component>
+     <component componentClassID="{9CF90BF0-5BCC-4C63-B91D-1F322DC12C26}" contactInfo="Derived Column;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" description="Updates column values using expressions" id="16" localeId="-1" name="Derived Column" pipelineVersion="0" usesDispositions="true" validateExternalMetadata="True" version="0">
+      <inputs>
+       <input dangling="false" description="Input to the Derived Column Transformation" errorOrTruncationOperation="" errorRowDisposition="NotUsed" hasSideEffects="false" id="17" name="Derived Column Input" truncationRowDisposition="NotUsed">
+        <externalMetadataColumns isUsed="False"/>
+       </input>
+      </inputs>
+      <outputs>
+       <output dangling="false" deleteOutputOnPathDetached="false" description="Default Output of the Derived Column Transformation" errorOrTruncationOperation="" errorRowDisposition="NotUsed" exclusionGroup="1" hasSideEffects="false" id="18" isErrorOut="false" isSorted="false" name="Derived Column Output" synchronousInputId="17" truncationRowDisposition="NotUsed">
+        <outputColumns>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="cy" description="" errorOrTruncationOperation="Computation" errorRowDisposition="FailComponent" externalMetadataColumnId="0" id="139" length="0" lineageId="139" name="Forecast" precision="0" scale="0" sortKeyPosition="0" specialFlags="0" truncationRowDisposition="FailComponent">
+          <properties>
+           <property UITypeEditor="" containsID="true" dataType="System.String" description="Derived Column Expression" expressionType="None" id="140" isArray="false" name="Expression" state="default" typeConverter="">
+            0
+           </property>
+           <property UITypeEditor="" containsID="true" dataType="System.String" description="Derived Column Friendly Expression" expressionType="Notify" id="141" isArray="false" name="FriendlyExpression" state="default" typeConverter="">
+            0
+           </property>
+          </properties>
+         </outputColumn>
+        </outputColumns>
+        <externalMetadataColumns isUsed="False"/>
+       </output>
+       <output dangling="false" deleteOutputOnPathDetached="false" description="Error Output of the Derived Column Transformation" errorOrTruncationOperation="" errorRowDisposition="NotUsed" exclusionGroup="1" hasSideEffects="false" id="19" isErrorOut="true" isSorted="false" name="Derived Column Error Output" synchronousInputId="17" truncationRowDisposition="NotUsed">
+        <outputColumns>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="20" length="0" lineageId="20" name="ErrorCode" precision="0" scale="0" sortKeyPosition="0" specialFlags="1" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="21" length="0" lineageId="21" name="ErrorColumn" precision="0" scale="0" sortKeyPosition="0" specialFlags="2" truncationRowDisposition="NotUsed"/>
+        </outputColumns>
+        <externalMetadataColumns isUsed="False"/>
+       </output>
+      </outputs>
+     </component>
+     <component componentClassID="{4963CAED-CB38-4146-96F0-5910342FF3B9}" contactInfo="Excel Destination;Microsoft Corporation;Microsoft SqlServer v9; (C) 2005 Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0" description="Excel Destination" id="22" localeId="-1" name="Excel Destination" pipelineVersion="0" usesDispositions="true" validateExternalMetadata="True" version="0">
+      <properties>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." expressionType="None" id="23" isArray="false" name="CommandTimeout" state="default" typeConverter="">
+        0
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="Specifies the name of the database object used to open a rowset." expressionType="None" id="24" isArray="false" name="OpenRowset" state="default" typeConverter="">
+        Excel Destination
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." expressionType="None" id="25" isArray="false" name="OpenRowsetVariable" state="default" typeConverter=""/>
+       <property UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=9.0.242.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" containsID="false" dataType="System.String" description="The SQL command to be executed." expressionType="None" id="26" isArray="false" name="SqlCommand" state="default" typeConverter=""/>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="Specifies the mode used to access the database." expressionType="None" id="27" isArray="false" name="AccessMode" state="default" typeConverter="AccessMode">
+        0
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." expressionType="None" id="29" isArray="false" name="FastLoadKeepIdentity" state="default" typeConverter="">
+        false
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destinaton. Applies only if fast load is turned on." expressionType="None" id="30" isArray="false" name="FastLoadKeepNulls" state="default" typeConverter="">
+        false
+       </property>
+       <property UITypeEditor="" containsID="false" dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." expressionType="None" id="31" isArray="false" name="FastLoadOptions" state="default" typeConverter=""/>
+       <property UITypeEditor="" containsID="false" dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." expressionType="None" id="32" isArray="false" name="FastLoadMaxInsertCommitSize" state="default" typeConverter="">
+        0
+       </property>
+      </properties>
+      <connections>
+       <connection connectionManagerID="{02EFA3C0-9DBE-4279-9E03-B752C6523DAE}" description="The OLE DB runtime connection used to access the database." id="28" name="OleDbConnection"/>
+      </connections>
+      <inputs>
+       <input dangling="false" description="" errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" id="33" name="Excel Destination Input" truncationRowDisposition="NotUsed">
+        <inputColumns>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="158" id="164" lineageId="53" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="159" id="165" lineageId="56" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="160" id="166" lineageId="59" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="161" id="167" lineageId="62" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="162" id="168" lineageId="65" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+         <inputColumn description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="163" id="169" lineageId="139" name="" truncationRowDisposition="NotUsed" usageType="readOnly"/>
+        </inputColumns>
+        <externalMetadataColumns isUsed="True">
+         <externalMetadataColumn codePage="0" dataType="r8" description="" id="158" length="0" name="GeographyKey" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="r8" description="" id="159" length="0" name="SalesTerritoryKey" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="160" length="255" name="City" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="161" length="255" name="State" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="wstr" description="" id="162" length="255" name="PostalCode" precision="0" scale="0"/>
+         <externalMetadataColumn codePage="0" dataType="cy" description="" id="163" length="0" name="Forecast" precision="0" scale="0"/>
+        </externalMetadataColumns>
+       </input>
+      </inputs>
+      <outputs>
+       <output dangling="false" deleteOutputOnPathDetached="false" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" exclusionGroup="1" hasSideEffects="false" id="34" isErrorOut="true" isSorted="false" name="Excel Destination Error Output" synchronousInputId="33" truncationRowDisposition="NotUsed">
+        <outputColumns>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="35" length="0" lineageId="35" name="ErrorCode" precision="0" scale="0" sortKeyPosition="0" specialFlags="1" truncationRowDisposition="NotUsed"/>
+         <outputColumn codePage="0" comparisonFlags="0" dataType="i4" description="" errorOrTruncationOperation="" errorRowDisposition="NotUsed" externalMetadataColumnId="0" id="36" length="0" lineageId="36" name="ErrorColumn" precision="0" scale="0" sortKeyPosition="0" specialFlags="2" truncationRowDisposition="NotUsed"/>
+        </outputColumns>
+        <externalMetadataColumns isUsed="False"/>
+       </output>
+      </outputs>
+     </component>
+    </components>
+    <paths>
+     <path description="" endId="17" id="127" name="OLE DB Source Output" startId="11"/>
+     <path description="" endId="33" id="142" name="Derived Column Output" startId="18"/>
+    </paths>
+   </pipeline>
+  </DTS:ObjectData>
+ </DTS:Executable>
+ <DTS:Property DTS:Name="ObjectName">
+  CreateSalesForecastInput
+ </DTS:Property>
+ <DTS:Property DTS:Name="DTSID">
+  {032123E9-9E1B-4A6E-ADF3-7107A08DB045}
+ </DTS:Property>
+ <DTS:Property DTS:Name="Description"/>
+ <DTS:Property DTS:Name="CreationName">
+  MSDTS.Package.1
+ </DTS:Property>
+ <DTS:Property DTS:Name="DisableEventHandlers">
+  0
+ </DTS:Property>
+</DTS:Executable>
