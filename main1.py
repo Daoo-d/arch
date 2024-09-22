@@ -4,7 +4,7 @@ import json
 from sqlalchemy import create_engine
 import time
 from playwright.sync_api import sync_playwright
-import os
+import os,logging
 
 
 # Database credentials
@@ -60,9 +60,9 @@ def acquire_bearer_token(username,password):
         
         page.click('input[id="idSIButton9"]')
         
-        page.goto("https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset")
-        time.sleep(2)
-        page.click('button[data-bi-name="code-header-try-it-http"]')
+        # page.goto("https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset")
+        # time.sleep(2)
+        # page.click('button[data-bi-name="code-header-try-it-http"]')
         
         page.click('button[id="continue-with-account"]')
         
@@ -379,54 +379,45 @@ def get_groups(access_token):
     else:
         print(f"Failed to get REPORT. Status code: {response.status_code}")
         return response.json()
-
+logging.basicConfig(level=logging.INFO)
 def getdict_expr(bearer_token,report_id,dataset_id):
-    report = get_report(bearer_token,report_id)
-    pages = report_pages(bearer_token,report_id)
-    dataset = get_dataset(bearer_token,dataset_id)
-    datasource = get_datasources(bearer_token,dataset_id)
-    dataS = pd.json_normalize(datasource)
-    dataS['Dataset ID'] = report['datasetId']
-    table_query="EVALUATE INFO.TABLES()" 
-    data = get_tables_from_dataset(bearer_token,dataset_id,table_query)
-    rows = data['results'][0]['tables'][0]['rows']
-    table_data = pd.DataFrame(rows)
-    table_data['Dataset ID'] = report['datasetId']
+    try:
+        report = get_report(bearer_token, report_id)
+        pages = report_pages(bearer_token, report_id)
+        dataset = get_dataset(bearer_token, dataset_id)
+        datasource = get_datasources(bearer_token, dataset_id)
+        dataS = pd.json_normalize(datasource)
+        dataS['Dataset ID'] = report['datasetId']
 
-    table_query2="EVALUATE INFO.COLUMNS()" 
-    data2 = get_tables_from_dataset(bearer_token,dataset_id,table_query2)
-    rows2 = data2['results'][0]['tables'][0]['rows']
-    column_data = pd.DataFrame(rows2)
-    column_data['Dataset ID'] = report['datasetId']
+        table_queries = [
+            ("EVALUATE INFO.TABLES()", "table_data"),
+            ("EVALUATE INFO.COLUMNS()", "column_data"),
+            ("EVALUATE INFO.RELATIONSHIPS()", "relation_data")
+        ]
+        data_frames = {}
+        for query, name in table_queries:
+            data = get_tables_from_dataset(bearer_token, dataset_id, query)
+            rows = data['results'][0]['tables'][0]['rows']
+            data_frames[name] = pd.DataFrame(rows)
+            data_frames[name]['Dataset ID'] = report['datasetId']
 
-    table_query3="EVALUATE INFO.RELATIONSHIPS()" 
-    data2 = get_tables_from_dataset(bearer_token,dataset_id,table_query3)
-    rows3 = data2['results'][0]['tables'][0]['rows']
-    relation_data = pd.DataFrame(rows3)
-    relation_data['Dataset ID'] = report['datasetId']
-    
-    # print(len(table.columns))
-    # print(data)
-    # print(len(pages))
-    # column_count = 0
-    # for item in data:
-    #     table = fetch_data_from_powerbi(bearer_token,dataset_id,item.name)
-    #     column_count += len(table.columns)
-    # print(column_count)    
-    datadf={
-        "Dataset Name":dataset['name'],
-        "Dataset ID":report['datasetId'],
-        "Table Count":len(table_data),
-        # "Column Count":column_count,
-        "Report Name":report['name'],
-        "Report ID":report['id'],
-        "Report Type":report['reportType'],
-        "Page Count":len(pages)
-    }
-    data = pd.DataFrame([datadf])
-    combined_data = data.merge(dataS, on='Dataset ID')
-    
-    return combined_data,table_data,column_data,relation_data
+        datadf = {
+            "Dataset Name": dataset['name'],
+            "Dataset ID": report['datasetId'],
+            "Table Count": len(data_frames['table_data']),
+            "Report Name": report['name'],
+            "Report ID": report['id'],
+            "Report Type": report['reportType'],
+            "Page Count": len(pages)
+            }
+        combined_data = pd.DataFrame([datadf]).merge(dataS, on='Dataset ID')
+
+        return combined_data, data_frames['table_data'], data_frames['column_data'], data_frames['relation_data']
+    except Exception as e:
+        logging.error(f"Error in getdict_expr: {e}")
+        return None, None, None, None
+
+
 
 def generate_table_name(access_token,dataset_id, table_name):
     data = get_dataset(access_token,dataset_id)
@@ -462,7 +453,12 @@ def fetch_all_tables(access_token,dataset_id):
 
 # def main():
 #     bearer_token = read_access_token(username,password)
-
+#     table_query="EVALUATE INFO.TABLES()" 
+#     data = get_tables_from_dataset(bearer_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b",table_query)
+#     rows = data['results'][0]['tables'][0]['rows']
+#     table_data = pd.DataFrame(rows)
+#     print(data)
+#     print(table_data)
 # #     # data = get_tables_from_dataset(bearer_token,dataset_id,"EVALUATE INFO.TABLES()")
 #     groups = get_groups(bearer_token)
 #     dataframes = []

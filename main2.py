@@ -29,8 +29,9 @@ def connect_database(dsn_name):
 def get_projects(dsn_name,database_name):
     conn = connect_database(dsn_name)
     query = f"""
-    SELECT 
-        *
+    SELECT project_id,folder_id,name,project_format_version,
+    deployed_by_name,last_deployed_time,created_time,
+    object_version_lsn 
     FROM {database_name}.catalog.projects
     """
     try:

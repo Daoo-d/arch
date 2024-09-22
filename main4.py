@@ -43,38 +43,38 @@ def get_SSIS():
     return combined
 
 def get_poowerbi():
-    bearer_token = read_access_token(username,password)
+    try:
+        bearer_token = read_access_token(username, password)
+        groups = get_groups(bearer_token)
+        dataframes, dfs, dfs2, dfs3 = [], [], [], []
 
-#     # data = get_tables_from_dataset(bearer_token,dataset_id,"EVALUATE INFO.TABLES()")
-    groups = get_groups(bearer_token)
-    dataframes = []
-    dfs = []
-    dfs2 = []
-    dfs3 = []
-    for group in groups:
-        tname = group['name']
-        print(f"get :{tname}")
-        data = get_reports_in_groups(bearer_token,group['id'])
-        for d in data:
-            reportid = d['id']
-            datasetid = d['datasetId']
-            dataframe1,dataframe2,dataframe3,dataframe4 = getdict_expr(bearer_token,reportid,datasetid)
-            dfs.append(dataframe2)
-            dataframes.append(dataframe1)
-            dfs2.append(dataframe3) 
-            dfs3.append(dataframe4)   
+        for group in groups:
+            logging.info(f"Processing group: {group['name']}")
+            data = get_reports_in_groups(bearer_token, group['id'])
+            for d in data:
+                reportid = d['id']
+                datasetid = d['datasetId']
+                dataframe1, dataframe2, dataframe3, dataframe4 = getdict_expr(bearer_token, reportid, datasetid)
+                if dataframe1 is not None:
+                    dfs.append(dataframe2)
+                    dataframes.append(dataframe1)
+                    dfs2.append(dataframe3)
+                    dfs3.append(dataframe4)
+
         combined_df = pd.concat(dfs, ignore_index=True)
-        combined_df1 = pd.concat(dfs2,ignore_index=True)
-        combined_df3 = pd.concat(dfs3,ignore_index=True)
-
-        da = combined_df.merge(combined_df1,on="Dataset ID").merge(combined_df3,on="Dataset ID")
-        da.to_excel('merge.xlsx',index=False)
-        combined_df2 = pd.concat(dataframes,ignore_index=True)
+        combined_df1 = pd.concat(dfs2, ignore_index=True)
+        combined_df3 = pd.concat(dfs3, ignore_index=True)
+        da = combined_df.merge(combined_df1, on="Dataset ID").merge(combined_df3, on="Dataset ID")
+        da.to_excel('merge.xlsx', index=False)
+        combined_df2 = pd.concat(dataframes, ignore_index=True)
         dataset = combined_df2.merge(da, on='Dataset ID')
-        dataset['Tool']="Power Bi"
-        dataset.to_excel("output4.xlsx",index=False)
-    return dataset    
+        dataset['Tool'] = "Power BI"
+        dataset.to_excel("output4.xlsx", index=False)
 
+        return dataset
+    except Exception as e:
+        logging.error(f"Error in get_powerbi: {e}")
+        return None
 
 def main():
 
@@ -84,11 +84,11 @@ def main():
 
     combined_df.to_excel('result.xlsx',index=False)
     
-    # if combined_df is not None:
-    #     engine = connect_mysql_database(hostname,usernamedb,passworddb,dbname)
-    #     combined_df.to_sql("combined_data",con=engine,if_exists='replace',index=False)
-    # else:
-    #     print("Failed to fetch data for the table.") 
+    if combined_df is not None:
+        engine = connect_mysql_database(hostname,usernamedb,passworddb,dbname)
+        combined_df.to_sql("combined_data",con=engine,if_exists='replace',index=False)
+    else:
+        print("Failed to fetch data for the table.") 
      
 
 if __name__=='__main__':
