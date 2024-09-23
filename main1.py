@@ -451,8 +451,8 @@ def fetch_all_tables(access_token,dataset_id):
             print("Failed to fetch data for the table.") 
 
 
-# def main():
-#     bearer_token = read_access_token(username,password)
+def main():
+    bearer_token = read_access_token(username,password)
 #     table_query="EVALUATE INFO.TABLES()" 
 #     data = get_tables_from_dataset(bearer_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b",table_query)
 #     rows = data['results'][0]['tables'][0]['rows']
@@ -546,5 +546,5 @@ def fetch_all_tables(access_token,dataset_id):
 
     
     
-# if __name__=="__main__":
-#     main()
+if __name__=="__main__":
+    main()
