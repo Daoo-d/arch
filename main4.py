@@ -4,6 +4,7 @@ from playwright.async_api import async_playwright
 import pandas as pd
 from fastapi import FastAPI, HTTPException,Header
 import logging,json,time
+from sqlalchemy import text
 from pydantic import BaseModel
 import tracemalloc
 from concurrent.futures import ThreadPoolExecutor
@@ -384,17 +385,109 @@ async def get_combined_data(username: str = Header(...), password: str = Header(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# @app.get("/populate_data")
-# async def populate_database(username: str = Header(...), password: str = Header(...)):
-#     try:
-#         access_token = await read_access_token(username, password)
+@app.get("/populate_data")
+async def populate_database(username: str = Header(...), password: str = Header(...)):
+    try:
+        access_token = await read_access_token_update(username, password)
+        dataset = await get_dataset_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b")
+        datasource = await get_datasources_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b")
+        report = await get_report_update(access_token,"f485a7b0-7b44-45fd-a86c-26b2253f3bbd")
+        pages = await report_pages_update(access_token,"f485a7b0-7b44-45fd-a86c-26b2253f3bbd")
+        tables = await get_tables_from_dataset_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b","EVALUATE INFO.TABLES()")     
+        first_element = datasource[0]
+
+# Access the nested keys
+        connectiondet = first_element.get('connectionDetails', {})
+        server = connectiondet.get('server', None)
+        database = connectiondet.get('database', None)
+        path = connectiondet.get('path', None)
+        url = connectiondet.get('url', None)
+        connection_details_df = pd.DataFrame([{
+            'Server': server,
+            'DatabaseName': database,
+            'Path': path,
+            'URL': url
+        }])
+        if connection_details_df is not None:
+            engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlt")
+            if engine:
+                connection = engine.connect()
+                transaction = connection.begin()
+                try:
+                    # Insert data into ConnectionDetails table
+                    connection_details_df.to_sql("connectiondetails", con=connection, if_exists='append', index=False)
+
+                    # Retrieve the last inserted ID
+                    result = connection.execute(text("SELECT LAST_INSERT_ID()"))
+                    last_id = result.scalar()
+                    
+                    print("Last inserted ID:", last_id)
+                    dataset_df = pd.DataFrame([{
+                    "DatasetID":dataset['id'],
+                    "DatasetName":dataset['name'],
+                    "TableCount":len(pd.DataFrame(tables)),
+                    "DataSourceType":first_element['datasourceType'],
+                    "DataSourceID":first_element['datasourceId'],
+                    "GatewayID":first_element['gatewayId'],
+                    "isRefreshable":dataset['isRefreshable'],
+                    "ReportEmbbedURL":dataset['createReportEmbedURL'],
+                    "EmbedURL":dataset['qnaEmbedURL'],
+                    "ConnectionID":last_id,
+                    "ToolID":1        
+                }])
+                    try:
+                        dataset_df.to_sql("dataset", con=connection, if_exists='append', index=False)
+                        print("Data inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")
+                    report_df = pd.DataFrame([{
+                    "ReportID":report['id'],
+                    "ReportName":report.get('name', None),
+                    "ReportType":report['reportType'],
+                    "PageCount":len(pages),
+                    "DatasetID":report['datasetId']
+                }])
+                    try:
+                        report_df.to_sql("report", con=connection, if_exists='append', index=False)
+                        print("report inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")    
+                    
+                    for table in tables:
+                        table_df = pd.DataFrame([{
+                        "TableID":table["[ID]"],
+                        "TableName":table["[Name]"],
+                        "IsHidden":table["[IsHidden]"],
+                        "TableStorageID":table["[TableStorageID]"],
+                        "ModifiedTime":table["[ModifiedTime]"],
+                        "StructureModifiedTime":table["[StructureModifiedTime]"],
+                        "SystemFlags":table["[SystemFlags]"],
+                        "LineageTag":table["[LineageTag]"],
+                        "DataCategory":table.get("[DataCategory]",None),
+                        "DatasetID":report['datasetId']
+                        }])
+                        try:
+                            table_df.to_sql("tableentity", con=connection, if_exists='append', index=False)
+                            print("report inserted successfully")
+                        except Exception as e:
+                            print(f"Failed to insert data: {e}")  
+                        transaction.commit()      
+                except Exception as e:
+                    transaction.rollback()
+                    print("Failed to insert data")
+                    print("Error:", e)
+                finally:
+                    connection.close()    
+        return {
+            "message": "Data populated and saved successfully",
+            "dataset":dataset,
+            "datasource":datasource,
+            "report":report,
+            "tables":tables
+        }
         
-#         return {
-#             "message": "Data populated and saved successfully",
-#         }
-        
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # def main():
