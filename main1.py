@@ -44,7 +44,7 @@ def acquire_bearer_token(username,password):
         
         browser = p.chromium.launch(headless = False)
         page = browser.new_page()
-        page.goto('https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset?tryIt=true#code-try-0')
+        page.goto('https://learn.microsoft.com/en-us/rest/api/power-bi/reports/get-report#code-try-0')
         page.click('a[id="try-it-sign-in"]')
         
         page.fill('input[id="i0116"]',username)
@@ -60,9 +60,9 @@ def acquire_bearer_token(username,password):
         
         page.click('input[id="idSIButton9"]')
         
-        # page.goto("https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset")
-        # time.sleep(2)
-        # page.click('button[data-bi-name="code-header-try-it-http"]')
+        page.goto("https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset")
+        time.sleep(2)
+        page.click('button[data-bi-name="code-header-try-it-http"]')
         
         page.click('button[id="continue-with-account"]')
         
@@ -453,6 +453,7 @@ def fetch_all_tables(access_token,dataset_id):
 
 def main():
     bearer_token = read_access_token(username,password)
+    # print(time.time() + 3600)
 #     table_query="EVALUATE INFO.TABLES()" 
 #     data = get_tables_from_dataset(bearer_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b",table_query)
 #     rows = data['results'][0]['tables'][0]['rows']

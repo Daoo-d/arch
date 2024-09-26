@@ -208,7 +208,8 @@ async def getdict_expr_update(bearer_token, report_id, dataset_id):
 async def aquire_access_tokken_update(username: str, password: str):
     print("GETTING ACCESS TOKEN")
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=False)
+        edge_path = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
+        browser = await p.chromium.launch(executable_path=edge_path, headless=False)
         page = await browser.new_page()
         await page.goto('https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset?tryIt=true#code-try-0')
         await page.click('a[id="try-it-sign-in"]')
@@ -225,6 +226,7 @@ async def aquire_access_tokken_update(username: str, password: str):
         await page.click('input[id="idSIButton9"]')
         
         await page.click('button[id="continue-with-account"]')
+        
         
         pre_element = await page.query_selector('pre[name="http-request"]')
         span_element = await pre_element.query_selector('span')
@@ -389,103 +391,150 @@ async def get_combined_data(username: str = Header(...), password: str = Header(
 async def populate_database(username: str = Header(...), password: str = Header(...)):
     try:
         access_token = await read_access_token_update(username, password)
-        dataset = await get_dataset_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b")
-        datasource = await get_datasources_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b")
-        report = await get_report_update(access_token,"f485a7b0-7b44-45fd-a86c-26b2253f3bbd")
-        pages = await report_pages_update(access_token,"f485a7b0-7b44-45fd-a86c-26b2253f3bbd")
-        tables = await get_tables_from_dataset_update(access_token,"b6e02f95-5cd6-42c5-85d1-cf216678dc5b","EVALUATE INFO.TABLES()")     
-        first_element = datasource[0]
+        groups = await get_groups_update(access_token)
 
-# Access the nested keys
-        connectiondet = first_element.get('connectionDetails', {})
-        server = connectiondet.get('server', None)
-        database = connectiondet.get('database', None)
-        path = connectiondet.get('path', None)
-        url = connectiondet.get('url', None)
-        connection_details_df = pd.DataFrame([{
-            'Server': server,
-            'DatabaseName': database,
-            'Path': path,
-            'URL': url
-        }])
-        if connection_details_df is not None:
-            engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlt")
-            if engine:
-                connection = engine.connect()
-                transaction = connection.begin()
-                try:
-                    # Insert data into ConnectionDetails table
-                    connection_details_df.to_sql("connectiondetails", con=connection, if_exists='append', index=False)
+        async def process_group(group):
+            print("reports in groups")
+            data = await get_reports_in_groups_update(access_token, group['id'])
+            for d in data:     
+                dataset = await get_dataset_update(access_token,d['datasetId'])
+                datasource = await get_datasources_update(access_token,d['datasetId'])
+                report = await get_report_update(access_token,d['id'])
+                pages = await report_pages_update(access_token,d['id'])
+                tables = await get_tables_from_dataset_update(access_token,d['datasetId'],"EVALUATE INFO.TABLES()")
+                columns = await get_tables_from_dataset_update(access_token,d['datasetId'],"EVALUATE INFO.COLUMNS()")  
+                relationships = await get_tables_from_dataset_update(access_token,d['datasetId'],"EVALUATE INFO.RELATIONSHIPS()")   
+                first_element = datasource[0]
 
-                    # Retrieve the last inserted ID
-                    result = connection.execute(text("SELECT LAST_INSERT_ID()"))
-                    last_id = result.scalar()
-                    
-                    print("Last inserted ID:", last_id)
-                    dataset_df = pd.DataFrame([{
-                    "DatasetID":dataset['id'],
-                    "DatasetName":dataset['name'],
-                    "TableCount":len(pd.DataFrame(tables)),
-                    "DataSourceType":first_element['datasourceType'],
-                    "DataSourceID":first_element['datasourceId'],
-                    "GatewayID":first_element['gatewayId'],
-                    "isRefreshable":dataset['isRefreshable'],
-                    "ReportEmbbedURL":dataset['createReportEmbedURL'],
-                    "EmbedURL":dataset['qnaEmbedURL'],
-                    "ConnectionID":last_id,
-                    "ToolID":1        
+        # Access the nested keys
+                connectiondet = first_element.get('connectionDetails', {})
+                server = connectiondet.get('server', None)
+                database = connectiondet.get('database', None)
+                path = connectiondet.get('path', None)
+                url = connectiondet.get('url', None)
+                connection_details_df = pd.DataFrame([{
+                    'Server': server,
+                    'DatabaseName': database,
+                    'Path': path,
+                    'URL': url
                 }])
-                    try:
-                        dataset_df.to_sql("dataset", con=connection, if_exists='append', index=False)
-                        print("Data inserted successfully")
-                    except Exception as e:
-                        print(f"Failed to insert data: {e}")
-                    report_df = pd.DataFrame([{
-                    "ReportID":report['id'],
-                    "ReportName":report.get('name', None),
-                    "ReportType":report['reportType'],
-                    "PageCount":len(pages),
-                    "DatasetID":report['datasetId']
-                }])
-                    try:
-                        report_df.to_sql("report", con=connection, if_exists='append', index=False)
-                        print("report inserted successfully")
-                    except Exception as e:
-                        print(f"Failed to insert data: {e}")    
-                    
-                    for table in tables:
-                        table_df = pd.DataFrame([{
-                        "TableID":table["[ID]"],
-                        "TableName":table["[Name]"],
-                        "IsHidden":table["[IsHidden]"],
-                        "TableStorageID":table["[TableStorageID]"],
-                        "ModifiedTime":table["[ModifiedTime]"],
-                        "StructureModifiedTime":table["[StructureModifiedTime]"],
-                        "SystemFlags":table["[SystemFlags]"],
-                        "LineageTag":table["[LineageTag]"],
-                        "DataCategory":table.get("[DataCategory]",None),
-                        "DatasetID":report['datasetId']
-                        }])
+                if connection_details_df is not None:
+                    engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlineage")
+                    if engine:
+                        connection = engine.connect()
+                        transaction = connection.begin()
                         try:
-                            table_df.to_sql("tableentity", con=connection, if_exists='append', index=False)
-                            print("report inserted successfully")
+                            # Insert data into ConnectionDetails table
+                            connection_details_df.to_sql("connectiondetails", con=connection, if_exists='append', index=False)
+
+                            # Retrieve the last inserted ID
+                            result = connection.execute(text("SELECT LAST_INSERT_ID()"))
+                            last_id = result.scalar()
+                            
+                            print("Last inserted ID:", last_id)
+                            dataset_df = pd.DataFrame([{
+                            "DatasetID":dataset['id'],
+                            "DatasetName":dataset['name'],
+                            "TableCount":len(pd.DataFrame(tables)),
+                            "DataSourceType":first_element['datasourceType'],
+                            "DataSourceID":first_element['datasourceId'],
+                            "GatewayID":first_element['gatewayId'],
+                            "isRefreshable":dataset['isRefreshable'],
+                            "ReportEmbbedURL":dataset['createReportEmbedURL'],
+                            "EmbedURL":dataset['qnaEmbedURL'],
+                            "ConnectionID":last_id,
+                            "ToolID":1        
+                        }])
+                            try:
+                                dataset_df.to_sql("dataset", con=connection, if_exists='append', index=False)
+                                print("Data inserted successfully")
+                            except Exception as e:
+                                print(f"Failed to insert data: {e}")
+                            report_df = pd.DataFrame([{
+                            "ReportID":report['id'],
+                            "ReportName":report.get('name', None),
+                            "ReportType":report['reportType'],
+                            "PageCount":len(pages),
+                            "DatasetID":report['datasetId']
+                        }])
+                            try:
+                                report_df.to_sql("report", con=connection, if_exists='append', index=False)
+                                print("report inserted successfully")
+                            except Exception as e:
+                                print(f"Failed to insert data: {e}")    
+                            
+                            for table in tables:
+                                table_df = pd.DataFrame([{
+                                "TableID":table["[ID]"],
+                                "TableName":table["[Name]"],
+                                "IsHidden":table["[IsHidden]"],
+                                "TableStorageID":table["[TableStorageID]"],
+                                "ModifiedTime":table["[ModifiedTime]"],
+                                "StructureModifiedTime":table["[StructureModifiedTime]"],
+                                "SystemFlags":table.get("[SystemFlags]",None),
+                                "LineageTag":table.get("[LineageTag]",None),
+                                "DataCategory":table.get("[DataCategory]",None),
+                                "DatasetID":dataset['id']
+                                }])
+                                try:
+                                    table_df.to_sql("tableentity", con=connection, if_exists='append', index=False)
+                                    print("tables inserted successfully")
+                                except Exception as e:
+                                    print(f"Failed to insert data: {e}")
+                            for column in columns:
+                                column_df = pd.DataFrame([{
+                                "ColumnID":column.get("[ID]",None),
+                                "TableID":column.get("[TableID]",None),
+                                "ExplicitName":column.get("[ExplicitName]",None),
+                                "ExplicitDataType":column.get("[ExplicitDataType]",None),
+                                "InferredDataType":column.get("[InferredDataType]",None),
+                                "IsHidden":column.get("[IsHidden]",None),
+                                "IsKey":column.get("[IsKey]",None),
+                                "IsNullable":column.get("[IsNullable]",None),
+                                "Alignment":column.get("[Alignment]",None),
+                                "ColumnStorageID":column.get("[ColumnStorageID]",None),
+                                "SourceColumn":column.get("[SourceColumn]",None),
+                                "LineageTag":column.get("[LineageTag]",None),
+                                "SummarizeBy":column.get("[SummarizeBy]",None),
+                                "ModifiedTime":column.get("[ModifiedTime]",None),
+                                "DatasetID":dataset['id']
+                                }])
+                                try:
+                                    column_df.to_sql("columnentity", con=connection, if_exists='append', index=False)
+                                    print("column inserted successfully")
+                                except Exception as e:
+                                    print(f"Failed to insert data: {e}")
+                            for relation in relationships:
+                                relation_df = pd.DataFrame([{
+                                "RelationshipID":relation.get("[ID]",None),
+                                "FromTableID":relation.get("[FromTableID]",None),
+                                "FromColumnID":relation.get("[FromColumnID]",None),
+                                "ToTableID":relation.get("[ToTableID]",None),
+                                "ToColumnID":relation.get("[ToColumnID]",None),
+                                "FromCardinality":relation.get("[FromCardinality]",None),
+                                "ToCardinality":relation.get("[ToCardinality]",None),
+                                "CrossFilteringBehavior":relation.get("[CrossFilteringBehavior]",None),
+                                "RelyOnReferentialIntegrity":relation.get("[RelyOnReferentialIntegrity]",None),
+                                "ModifiedTime":relation.get("[ModifiedTime]",None),
+                                "DatasetID":dataset['id']
+                                }])
+                                try:
+                                    relation_df.to_sql("relationships", con=connection, if_exists='append', index=False)
+                                    print("relation inserted successfully")
+                                except Exception as e:
+                                    print(f"Failed to insert data: {e}")                  
+                            transaction.commit()          
                         except Exception as e:
-                            print(f"Failed to insert data: {e}")  
-                        transaction.commit()      
-                except Exception as e:
-                    transaction.rollback()
-                    print("Failed to insert data")
-                    print("Error:", e)
-                finally:
-                    connection.close()    
+                            transaction.rollback()
+                            print("Failed to insert data")
+                            print("Error:", e)
+                        finally:
+                            connection.close()    
+                
+        await asyncio.gather(*[process_group(group) for group in groups])
         return {
-            "message": "Data populated and saved successfully",
-            "dataset":dataset,
-            "datasource":datasource,
-            "report":report,
-            "tables":tables
-        }
-        
+                    "message": "Data populated and saved successfully",
+                }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
