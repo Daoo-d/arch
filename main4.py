@@ -208,8 +208,7 @@ async def getdict_expr_update(bearer_token, report_id, dataset_id):
 async def aquire_access_tokken_update(username: str, password: str):
     print("GETTING ACCESS TOKEN")
     async with async_playwright() as p:
-        edge_path = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
-        browser = await p.chromium.launch(executable_path=edge_path, headless=False)
+        browser = await p.chromium.launch(headless=False)
         page = await browser.new_page()
         await page.goto('https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/get-dataset?tryIt=true#code-try-0')
         await page.click('a[id="try-it-sign-in"]')
@@ -261,29 +260,33 @@ async def read_access_token_update(username: str, password: str):
 def get_SSIS():
     
     query = f"""
-    SELECT parameter_id,parameter_name,project_id,CAST(design_default_value AS VARCHAR) AS design_default_value,
-    object_name,data_type,description,value_type,value_set,referenced_variable_name,validation_status,last_validation_time
+    SELECT parameter_id,parameter_name,project_id,CAST(design_default_value AS VARCHAR) AS design_default_value,CAST(default_value AS VARCHAR)default_value,
+    object_type,object_name,data_type AS parameter_data_type,required,sensitive,description,value_type,value_set,referenced_variable_name,validation_status,last_validation_time
     
     FROM SSISDB.catalog.object_parameters
     """
-    query1 = f"""
-    SELECT * FROM SSISDB.catalog.environments
-    """
+    # query1 = f"""
+    # SELECT * FROM SSISDB.catalog.environments
+    # """
     df = get_projects(dsn_name,"SSISDB")
-    df1 = get_packages(dsn_name,"SSISDB")
-    df2 = get_elements(dsn_name,query1)
-    df3 = get_elements(dsn_name,query)
-    print(df2)
-    if df2.empty:
-        combined = df3.merge(df,on="project_id").merge(df1,on="project_id")
-    else:
-        combined = df3.merge(df,on="project_id").merge(df1,on="project_id").merge(df2,on="folder_id")
-    for column in combined.select_dtypes(include=['datetime64[ns, UTC]']).columns:
-        combined[column] = combined[column].dt.tz_localize(None)
-    combined['Tool'] = 'SSIS'
-    # combined.to_excel("SSISDB4.xlsx",index=False)
+    df.drop('deployed_by_sid', axis=1, inplace=True)
 
-    return combined
+    df1 = get_packages(dsn_name,"SSISDB")
+    # df1 = get_packages(dsn_name,"SSISDB")
+    # df2 = get_elements(dsn_name,query1)
+    df2 = get_elements(dsn_name,query)
+    # print(df3)
+    # if df2.empty:
+    #     combined = df.merge(df1,on="project_id")
+    # else:
+    #     combined = df3.merge(df,on="project_id").merge(df1,on="project_id").merge(df2,on="folder_id")
+    # for column in combined.select_dtypes(include=['datetime64[ns, UTC]']).columns:
+    #     combined[column] = combined[column].dt.tz_localize(None)
+    
+    df['ToolID'] = '2'
+    # df.to_excel("SSISDB4.xlsx",index=False)
+
+    return df,df1,df2
 
 async def get_powerbi(bearer_token):
     tracemalloc.start()
@@ -345,16 +348,43 @@ async def powerbi_data(username: str = Header(...), password: str = Header(...))
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.get("/SSIS_data")
-async def SSIS_data(username: str = Header(...), password: str = Header(...)):
+async def SSIS_data():
     try:
-        dataframe = get_SSIS()
-
-        if dataframe is not None:
-            engine = connect_mysql_database(hostname,usernamedb,passworddb,dbname)
-            dataframe.to_sql("SSIS_table",con=engine,if_exists='replace',index=False)
+        project_df,package_df,parameter_df = get_SSIS()
+        if project_df is not None:
+            engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlineage")
+            if engine:
+                try:
+                    connection = engine.connect()
+                    transaction = connection.begin()
+                    try:
+                        project_df.to_sql("ssis_projects", con=connection, if_exists='replace', index=False)
+                        print("parameter inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")
+                    try:
+                        package_df.to_sql("ssis_packages", con=connection, if_exists='replace', index=False)
+                        print("parameter inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")
+                    try:
+                        parameter_df.to_sql("package_parameters", con=connection, if_exists='replace', index=False)
+                        print("parameter inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")        
+                    transaction.commit()          
+                except Exception as e:
+                    transaction.rollback()
+                    print("Failed to insert data")
+                    print("Error:", e)
+                finally:
+                    connection.close()    
+        # if dataframe is not None:
+        #     engine = connect_mysql_database(hostname,usernamedb,passworddb,dbname)
+        #     dataframe.to_sql("SSIS_table",con=engine,if_exists='replace',index=False)
             
-        else:
-            print("Failed to fetch data for the table.") 
+        # else:
+        #     print("Failed to fetch data for the table.") 
         return {
             "message": "Data populated and saved successfully",
         }
