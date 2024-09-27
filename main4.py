@@ -269,12 +269,11 @@ def get_SSIS():
     # SELECT * FROM SSISDB.catalog.environments
     # """
     df = get_projects(dsn_name,"SSISDB")
-    df.drop('deployed_by_sid', axis=1, inplace=True)
-
     df1 = get_packages(dsn_name,"SSISDB")
+    df2 = get_elements(dsn_name,query)
     # df1 = get_packages(dsn_name,"SSISDB")
     # df2 = get_elements(dsn_name,query1)
-    df2 = get_elements(dsn_name,query)
+    
     # print(df3)
     # if df2.empty:
     #     combined = df.merge(df1,on="project_id")
@@ -358,17 +357,17 @@ async def SSIS_data():
                     connection = engine.connect()
                     transaction = connection.begin()
                     try:
-                        project_df.to_sql("ssis_projects", con=connection, if_exists='replace', index=False)
-                        print("parameter inserted successfully")
+                        project_df.to_sql("ssis_projects", con=connection, if_exists='append', index=False)
+                        print("projects inserted successfully")
                     except Exception as e:
                         print(f"Failed to insert data: {e}")
                     try:
-                        package_df.to_sql("ssis_packages", con=connection, if_exists='replace', index=False)
-                        print("parameter inserted successfully")
+                        package_df.to_sql("ssis_packages", con=connection, if_exists='append', index=False)
+                        print("packages inserted successfully")
                     except Exception as e:
                         print(f"Failed to insert data: {e}")
                     try:
-                        parameter_df.to_sql("package_parameters", con=connection, if_exists='replace', index=False)
+                        parameter_df.to_sql("package_parameters", con=connection, if_exists='append', index=False)
                         print("parameter inserted successfully")
                     except Exception as e:
                         print(f"Failed to insert data: {e}")        
@@ -449,7 +448,7 @@ async def populate_database(username: str = Header(...), password: str = Header(
                     'URL': url
                 }])
                 if connection_details_df is not None:
-                    engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlineage")
+                    engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlt")
                     if engine:
                         connection = engine.connect()
                         transaction = connection.begin()
@@ -562,6 +561,35 @@ async def populate_database(username: str = Header(...), password: str = Header(
                             connection.close()    
                 
         await asyncio.gather(*[process_group(group) for group in groups])
+        project_df,package_df,parameter_df = get_SSIS()
+        if project_df is not None:
+            engine = connect_mysql_database(hostname,usernamedb,passworddb,"dlt")
+            if engine:
+                try:
+                    connection = engine.connect()
+                    transaction = connection.begin()
+                    try:
+                        project_df.to_sql("ssis_projects", con=connection, if_exists='append', index=False)
+                        print("projects inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")
+                    try:
+                        package_df.to_sql("ssis_packages", con=connection, if_exists='append', index=False)
+                        print("packages inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")
+                    try:
+                        parameter_df.to_sql("package_parameters", con=connection, if_exists='append', index=False)
+                        print("parameter inserted successfully")
+                    except Exception as e:
+                        print(f"Failed to insert data: {e}")        
+                    transaction.commit()          
+                except Exception as e:
+                    transaction.rollback()
+                    print("Failed to insert data")
+                    print("Error:", e)
+                finally:
+                    connection.close()
         return {
                     "message": "Data populated and saved successfully",
                 }
